@@ -25,7 +25,7 @@ export const Banner = () => {
 
 
                 <div className='w-full md:w-1/2 order-1'>
-                    <img src={BannerBook} className='mt-10 md:mx-10' />
+                    <img src={BannerBook} className='mt-10 px-10 pt-10 md:mx-10' />
                 </div>
             </div>
         </>
