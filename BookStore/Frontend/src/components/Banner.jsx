@@ -1,5 +1,5 @@
 import React from 'react'
-import bannerBook from '../assets/bannerBook.avif'
+import BannerBook from '../assets/BannerBook.png'
 export const Banner = () => {
     return (
         <>
@@ -25,7 +25,7 @@ export const Banner = () => {
 
 
                 <div className='w-full md:w-1/2 order-1'>
-                    <img src={bannerBook} className='mt-10' />
+                    <img src={BannerBook} className='mt-10 md:mx-10' />
                 </div>
             </div>
         </>

@@ -6,11 +6,11 @@ import FreeBook from '../components/FreeBook'
 
 const Home = () => {
   return (
-    <> 
-    <Navbar/>
-   <Banner/>
-   <FreeBook/>
-   <Footer/>
+    <>
+      <Navbar />
+      <Banner />
+      <FreeBook />
+      <Footer />
     </>
   )
 }
