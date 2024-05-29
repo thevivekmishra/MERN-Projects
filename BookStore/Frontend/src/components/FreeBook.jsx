@@ -1,13 +1,30 @@
-import React from 'react'
-import list from '../../public/list.json'
-
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import Cards from './Cards';
 
 const FreeBook = () => {
-    const filterData = list.filter((data) => data.category === "Free");
+
+    // Connecting to the backend
+    const [book, setBook] = useState([]);
+
+    useEffect(() => {
+        const getBook = async () => {
+            try {
+                const res = await axios.get("http://localhost:4000/book");
+                console.log(res.data);
+                const data = res.data.filter((data) => data.category === "Free");
+                setBook(data);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        getBook();
+    }, []);
+
+    // Slider settings
     var settings = {
         dots: true,
         infinite: false,
@@ -42,26 +59,23 @@ const FreeBook = () => {
             }
         ]
     };
-    console.log(filterData);
-    return (
-        <>
-            <div className="max-w-screen-2xl container mx-auto md:px-20 px-4">
-                <div>
-                    <h1 className='font-semibold text-xl pb-2'>Free Offered Courses </h1>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis numquam explicabo voluptas nostrum doloribus nisi nemo in totam quam libero culpa tempore, quia expedita. Quibusdam culpa minima accusamus enim, asperiores nisi quasi. Quos nostrum necessitatibus minus neque quaerat odit qui placeat impedit commodi ratione, in est nihil quam, illo odio!</p>
-                </div>
 
-                <div>
-                    <Slider {...settings}>
-                       {filterData.map((item) => (
-                        <Cards item = {item} key={item.id}/>
-                       ))}
-                     
-                    </Slider>
-                </div>
+    return (
+        <div className="max-w-screen-2xl container mx-auto md:px-20 px-4">
+            <div>
+                <h1 className='font-semibold text-xl pb-2'>Free Offered Courses</h1>
+                <p>Discover a world of free books curated just for you. Dive into captivating stories and insightful knowledge without spending a dime. Whether you're into fiction or non-fiction, our selection guarantees something to pique your interest and feed your imagination. Start exploring today and enjoy the magic of reading for free!</p>
             </div>
-        </>
-    )
+
+            <div>
+                <Slider {...settings}>
+                    {book.map((item) => (
+                        <Cards item={item} key={item.id} />
+                    ))}
+                </Slider>
+            </div>
+        </div>
+    );
 }
 
-export default FreeBook
+export default FreeBook;

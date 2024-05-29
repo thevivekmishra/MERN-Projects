@@ -2,8 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Login from './Login';
 import { useForm } from 'react-hook-form';
-
-
+import axios from "axios";
+import toast from 'react-hot-toast';
 const SignUp = () => {
     const {
         register,
@@ -11,9 +11,28 @@ const SignUp = () => {
         formState: { errors },
     } = useForm();
 
-    const onSubmit = (data) => {
-        console.log(data); // Handle your form submission logic here
-        // You may want to add login logic here, e.g., redirect to dashboard
+    const onSubmit = async (data) => {
+        const userInfo = {
+            fullname: data.fullname,
+            email: data.email,
+            password: data.password, // Fixed typo here
+        };
+
+        // Connecting with backend using axios
+        try {
+            const res = await axios.post("http://localhost:4000/user/signup", userInfo);
+            console.log(res.data);
+            if (res.data) {
+               toast.success("Signup Successfully");
+            }
+            //store user info in localhost
+            localStorage.setItem("User",JSON.stringify(res.data));
+        } catch (err) {
+            if(err.response){
+            console.log(err);
+            toast.error("Error: " + err.response.data.message);
+        }
+    }
     };
 
     return (
@@ -28,7 +47,7 @@ const SignUp = () => {
                         <h3 className="text-lg text-gray-800 dark:text-white font-medium mb-4">Sign Up</h3>
 
                         <div className="mb-4">
-                            <label htmlFor="name" className="block text-gray-800 dark:text-white  mb-2">
+                            <label htmlFor="name" className="block text-gray-800 dark:text-white mb-2">
                                 Name
                             </label>
                             <input
@@ -36,15 +55,15 @@ const SignUp = () => {
                                 id="name"
                                 type="text"
                                 placeholder="Enter your full Name"
-                                {...register('name', { required: true })}
-                                />
-                                {errors.name && (
-                                    <span className="text-red-500">Name is required</span>
-                                )}
+                                {...register('fullname', { required: true })}
+                            />
+                            {errors.fullname && (
+                                <span className="text-red-500">Name is required</span>
+                            )}
                         </div>
 
                         <div className="mb-4">
-                            <label htmlFor="email" className="block text-gray-800 dark:text-white  mb-2">
+                            <label htmlFor="email" className="block text-gray-800 dark:text-white mb-2">
                                 Email
                             </label>
                             <input
@@ -53,14 +72,14 @@ const SignUp = () => {
                                 type="email"
                                 placeholder="Enter your email"
                                 {...register('email', { required: true })}
-                                />
-                                {errors.email && (
-                                    <span className="text-red-500">Email is required</span>
-                                )}
+                            />
+                            {errors.email && (
+                                <span className="text-red-500">Email is required</span>
+                            )}
                         </div>
 
                         <div className="mb-6">
-                            <label htmlFor="password" className="block text-gray-800 dark:text-white  mb-2">
+                            <label htmlFor="password" className="block text-gray-800 dark:text-white mb-2">
                                 Password
                             </label>
                             <input
@@ -68,7 +87,7 @@ const SignUp = () => {
                                 id="password"
                                 type="password"
                                 placeholder="**********"
-                                {...register('email', { required: true })}
+                                {...register('password', { required: true })} // Fixed field registration here
                             />
                             {errors.password && (
                                 <span className="text-red-500">Password is required</span>
@@ -82,19 +101,17 @@ const SignUp = () => {
                             SignUp
                         </button>
 
-                        <p className=" text-gray-600 dark:text-gray-400 mt-4">
+                        <p className="text-gray-600 dark:text-gray-400 mt-4 flex">
                             Already have an account?{' '}
                             <button
                                 className="text-blue-500 hover:text-blue-800"
                                 onClick={() => document.getElementById("my_modal_3").showModal()}
                             >
-                                Login
                             </button>{" "}
-                            <Login />
+                            <Login/>
                         </p>
                     </form>
                 </div>
-
             </div>
         </div>
     );

@@ -4,22 +4,26 @@ export const Banner = () => {
     return (
         <>
             <div className='max-w-screen-2xl container mx-auto md:px-20 px-4 flex flex-col md:flex-row my-10'>
-               
+
                 <div className='w-full md:w-1/2 mt-12 md:mt-32 order-2 md:order-1'>
-                    <div className='space-y-12 '>
+                    <div className='space-y-12 text-center'>
                         <h1 className='text-4xl font-bold'>
-                            Hello, welcomes here to learn something <span className='text-pink-800'>new everyday!!!</span>
+                            Hello, welcomes here to learn something <span className='text-pink-500'>new everyday!!!</span>
                         </h1>
 
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae minima aliquam ipsum tempora molestias nostrum nobis animi quod et, tempore aut nesciunt nam earum ab. Distinctio atque error, nesciunt quas inventore debitis nostrum nihil! Minus, ex, quo quod cupiditate ducimus quibusdam tempora, itaque beatae similique illum vero cumque eligendi ut.</p>
-
-                        <label className="input input-bordered flex items-center gap-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="w-4 h-4 opacity-70"><path d="M2.5 3A1.5 1.5 0 0 0 1 4.5v.793c.026.009.051.02.076.032L7.674 8.51c.206.1.446.1.652 0l6.598-3.185A.755.755 0 0 1 15 5.293V4.5A1.5 1.5 0 0 0 13.5 3h-11Z" /><path d="M15 6.954 8.978 9.86a2.25 2.25 0 0 1-1.956 0L1 6.954V11.5A1.5 1.5 0 0 0 2.5 13h11a1.5 1.5 0 0 0 1.5-1.5V6.954Z" /></svg>
-                            <input type="text" className="grow" placeholder="Email" />
-                        </label>
+                        <p>Welcome to our bookstore, your gateway to a world of literature and learning! On our homepage, you'll find a carefully selected showcase of 5 to 6 free books, enticing you with diverse genres and intriguing titles. These free offerings are just a glimpse of what awaits in our extensive library, which spans everything from timeless classics to contemporary bestsellers.
+                            To delve deeper into our collection, simply log in to access exclusive content and browse our full range of books, both free and paid. Our full-stack website is designed for seamless navigation, ensuring you can easily explore, discover, and indulge in your literary passions. Whether you're seeking fiction to escape into new worlds or non-fiction to expand your knowledge, our bookstore caters to every reader's tastes and interests. Start your journey with us today and uncover the joy of reading at its finest!</p>
+                        <div className='text-4xl font-bold flex '>
+                            <h1 className='text-pink-500'>Want to read technical blogs...</h1>
+                        </div>
+                        
 
                     </div>
-                    <button className="btn btn-secondary mt-4">Secondary</button>
+                    <button className="btn btn-secondary mt-4" >
+                        <a href="https://itstechglobe.blogspot.com/" target="_blank" rel="noopener noreferrer" style={{ color: 'inherit', textDecoration: 'none' }}>
+                           Read Blogs
+                        </a>
+                    </button>
                 </div>
 
 
