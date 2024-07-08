@@ -1,9 +1,17 @@
+// Header.jsx
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { NavLink, Link } from 'react-router-dom';
+import { authActions } from '../store/index.jsx'; // Update the import path
 
 const Header = () => {
   const isLoggedIn = useSelector((state) => state.isLoggedIn);
+  const dispatch = useDispatch();
+
+  const handleLogout = () => {
+    localStorage.removeItem('isLoggedIn'); // Clear login state from localStorage
+    dispatch(authActions.logout());
+  };
 
   return (
     <div className="bg-gradient-to-r from-orange-400 to-yellow-400 p-4">
@@ -30,7 +38,7 @@ const Header = () => {
               </NavLink>
             </>
           )}
-        </div>
+        </div>   
         <div className="flex space-x-4">
           {!isLoggedIn ? (
             <>
@@ -46,7 +54,10 @@ const Header = () => {
               </Link>
             </>
           ) : (
-            <button className="bg-orange-600 text-white px-4 py-2 rounded-full hover:bg-orange-700 transition duration-300 font-semibold">
+            <button 
+              onClick={handleLogout}
+              className="bg-orange-600 text-white px-4 py-2 rounded-full hover:bg-orange-700 transition duration-300 font-semibold"
+            >
               Logout
             </button>
           )}

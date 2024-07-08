@@ -1,10 +1,12 @@
+// Auth.jsx
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
+import { authActions } from '../store/index.jsx'; // Update the import path
 
 const Auth = () => {
   const dispatch = useDispatch();
-  
+
   const [isSignup, setIsSignup] = useState(false);
   const [inputs, setInputs] = useState({
     email: '',
@@ -41,7 +43,10 @@ const Auth = () => {
     console.log('Form Data:', inputs);
     const result = await sendRequest();
     console.log(result);
-    // Handle further logic after login/signup here
+    if (result) {
+      localStorage.setItem('isLoggedIn', 'true'); // Save login state to localStorage
+      dispatch(authActions.login());
+    }
   };
 
   return (

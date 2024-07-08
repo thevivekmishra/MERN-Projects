@@ -31,6 +31,6 @@ export const login = async (req, res, next) => {
     }
 
     return res.status(200).json({
-        message: "Logged in successfully"
+        message: "Logged in successfully",user:existingUser
     });
 };
