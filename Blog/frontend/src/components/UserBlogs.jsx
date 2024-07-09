@@ -16,13 +16,13 @@ const UserBlogs = () => {
     }
   };
 
+  const refreshBlogs = () => {
+    sendRequest().then((data) => setBlogs(data.blogs));
+  };
+
   useEffect(() => {
-    sendRequest().then((data) => {
-      if (data && data.blogs) {
-        setBlogs(data.blogs);
-      }
-    });
-  }, []);
+    refreshBlogs();
+  }, [id]);
 
   return (
     <div className="flex flex-col items-center">
@@ -36,6 +36,8 @@ const UserBlogs = () => {
             title={blog.title}
             imageURL={blog.image}
             description={blog.description}
+            createdAt={blog.createdAt} // Pass createdAt
+            refreshBlogs={refreshBlogs} // Pass refreshBlogs function
           />
         ))
       ) : (

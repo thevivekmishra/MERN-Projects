@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const AddBlogs = () => {
   const [formData, setFormData] = useState({
@@ -7,6 +8,7 @@ const AddBlogs = () => {
     description: '',
     imageUrl: '',
   });
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -42,6 +44,7 @@ const AddBlogs = () => {
         description: '',
         imageUrl: '',
       });
+      navigate('/myBlogs');  // Navigate to /myBlogs after adding the post
     }
   };
 
@@ -61,6 +64,7 @@ const AddBlogs = () => {
             onChange={handleChange}
             className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
             placeholder="Enter the title"
+            required
           />
         </div>
         <div className="mb-4">
@@ -75,6 +79,7 @@ const AddBlogs = () => {
             className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
             placeholder="Enter the description"
             rows="4"
+            required
           />
         </div>
         <div className="mb-4">
@@ -89,6 +94,7 @@ const AddBlogs = () => {
             onChange={handleChange}
             className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
             placeholder="Enter the image URL"
+            required
           />
         </div>
         <div className="flex justify-center">

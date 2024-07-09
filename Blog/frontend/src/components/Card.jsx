@@ -4,7 +4,7 @@ import deleteIcon from "../assets/delete.png";
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 
-const Blog = ({ username, title, imageURL, description, isUser, id }) => {
+const Blog = ({ username, title, imageURL, description, isUser, id, createdAt, refreshBlogs }) => {
   const navigate = useNavigate();
 
   const avatarLetter = username ? username.charAt(0).toUpperCase() : '';
@@ -18,28 +18,30 @@ const Blog = ({ username, title, imageURL, description, isUser, id }) => {
     try {
       const res = await axios.delete(`http://localhost:4000/api/blog/${id}`);
       console.log('Blog deleted successfully:', res.data);
-      return res.data;
+      refreshBlogs();
     } catch (error) {
       console.error('Error deleting blog:', error);
-      throw error;
     }
   };
 
   const handleDelete = () => {
     deleteRequest()
       .then((data) => {
-        console.log(data); // Optionally handle success response
-        // You can implement further actions upon successful deletion here
+        console.log(data);
+        refreshBlogs();
       })
       .catch((error) => {
         console.error('Failed to delete blog:', error);
-        // Optionally handle error cases
       });
   };
 
   const handleBlogClick = () => {
-    // Navigate to blog details page
     navigate(`/myBlogs/${id}`);
+  };
+
+  const formatDate = (dateString) => {
+    const options = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
+    return new Date(dateString).toLocaleDateString(undefined, options);
   };
 
   return (
@@ -84,6 +86,7 @@ const Blog = ({ username, title, imageURL, description, isUser, id }) => {
           alt={title}
         />
         <p className="text-gray-700 text-base mt-4">{description}</p>
+        <p className="text-gray-500 text-sm mt-2">Posted on: {formatDate(createdAt)}</p> {/* Display creation date */}
       </div>
     </div>
   );

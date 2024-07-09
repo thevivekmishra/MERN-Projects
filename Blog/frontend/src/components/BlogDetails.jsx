@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 
 const BlogDetails = () => {
   const { id } = useParams(); // Accessing id parameter from URL using useParams
+  const navigate = useNavigate();
 
   const [blog, setBlog] = useState(null); // State to store the fetched blog data
   const [inputs, setInputs] = useState({ title: '', description: '' }); // State to manage form inputs
@@ -45,7 +46,8 @@ const BlogDetails = () => {
         description: inputs.description,
       });
       console.log('Blog updated successfully:', res.data);
-      // Optionally, you can redirect the user or perform other actions upon successful update
+      alert('Blog updated successfully');
+      navigate('/myBlogs'); // Navigate to /myBlogs after successful update
     } catch (error) {
       console.error('Error updating blog:', error);
     }
