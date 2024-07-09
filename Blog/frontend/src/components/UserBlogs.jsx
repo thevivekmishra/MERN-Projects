@@ -29,6 +29,8 @@ const UserBlogs = () => {
       {blogs && blogs.length > 0 ? (
         blogs.map((blog, index) => (
           <Blog
+            id={blog._id}
+            isUser={true}
             key={index}
             username={blog.user.name} // Ensure blog.user.name exists in your data structure
             title={blog.title}

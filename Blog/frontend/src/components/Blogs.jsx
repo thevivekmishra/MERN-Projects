@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Blog from './Card.jsx';
+import deleteIcon from '../assets/delete.png';
+import editIcon from '../assets/edit.png';
+
 
 const Blogs = () => {
   const [blogs, setBlogs] = useState([]);
@@ -23,6 +26,8 @@ const Blogs = () => {
     <div className="flex flex-wrap justify-center">
       {blogs.map((blog) => (
         <Blog 
+        id= {blog._id}
+        isUser={localStorage.getItem("userId")===blog.user._id}
           key={blog._id}
           username={blog.user.name}
           title={blog.title}
