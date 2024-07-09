@@ -22,6 +22,7 @@ const Header = () => {
             <>
               <NavLink
                 to="/blogs"
+                end
                 className={({ isActive }) =>
                   isActive ? "text-white text-xl font-semibold border-b-2 border-white pb-1" : "text-white text-xl font-semibold hover:text-gray-200"
                 }
@@ -35,6 +36,15 @@ const Header = () => {
                 }
               >
                 My Blogs
+              </NavLink>
+              
+              <NavLink
+                to="/blogs/add"
+                className={({ isActive }) =>
+                  isActive ? "text-white text-xl font-semibold border-b-2 border-white pb-1" : "text-white text-xl font-semibold hover:text-gray-200"
+                }
+              >
+                Add Blogs
               </NavLink>
             </>
           )}

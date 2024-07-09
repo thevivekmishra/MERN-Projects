@@ -1,4 +1,3 @@
-// Auth.jsx
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
@@ -45,6 +44,7 @@ const Auth = () => {
     console.log(result);
     if (result) {
       localStorage.setItem('isLoggedIn', 'true'); // Save login state to localStorage
+      localStorage.setItem('userId', result.user._id); // Save userId to localStorage
       dispatch(authActions.login());
     }
   };
