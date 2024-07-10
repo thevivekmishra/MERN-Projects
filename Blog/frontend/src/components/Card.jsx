@@ -10,8 +10,13 @@ const Blog = ({ username, title, imageURL, description, isUser, id, createdAt, r
   const avatarLetter = username ? username.charAt(0).toUpperCase() : '';
 
   const handleEdit = () => {
-    navigate(`/myBlogs/${id}`);
-    console.log(`Editing blog: ${title}`);
+    if (isUser) { // Check if the current user is the author of the blog post
+      navigate(`/myBlogs/${id}`);
+      console.log(`Editing blog: ${title}`);
+    } else {
+      console.log('You can only edit your own posts.');
+      // Optionally, show a message or handle the restriction in UI
+    }
   };
 
   const deleteRequest = async () => {
@@ -36,7 +41,12 @@ const Blog = ({ username, title, imageURL, description, isUser, id, createdAt, r
   };
 
   const handleBlogClick = () => {
-    navigate(`/myBlogs/${id}`);
+    if (isUser) { // Check if the current user is the author of the blog post
+      navigate(`/myBlogs/${id}`);
+    } else {
+      console.log('You can only view your own posts.');
+      // Optionally, show a message or handle the restriction in UI
+    }
   };
 
   const formatDate = (dateString) => {
@@ -81,15 +91,16 @@ const Blog = ({ username, title, imageURL, description, isUser, id, createdAt, r
           {title}
         </div>
         <img
-          className="w-full h-48 object-cover mt-4"
+          className="w-full h-[350px] object-cover mt-4"
           src={imageURL}
           alt={title}
         />
         <p className="text-gray-700 text-base mt-4">{description}</p>
-        <p className="text-gray-500 text-sm mt-2">Posted on: {formatDate(createdAt)}</p> {/* Display creation date */}
+        <p className="text-gray-500 text-sm mt-2">Posted on: {formatDate(createdAt)}</p>
       </div>
     </div>
   );
 };
 
 export default Blog;
+

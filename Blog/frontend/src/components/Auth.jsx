@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
-import { authActions } from '../store/index.jsx'; // Update the import path
+import { authActions } from '../store/index.jsx';
+import BodyImage from './BodyImage'; // Import the BodyImage component
 
 const Auth = () => {
   const dispatch = useDispatch();
@@ -12,49 +13,69 @@ const Auth = () => {
     password: '',
     name: ''
   });
+  const [errorMessage, setErrorMessage] = useState('');
 
   const handleChange = (e) => {
     setInputs((prev) => ({
       ...prev,
       [e.target.name]: e.target.value
     }));
+    setErrorMessage(''); // Clear error message on input change
   };
 
   const sendRequest = async () => {
     const endpoint = isSignup
       ? 'http://localhost:4000/api/user/signup'
       : 'http://localhost:4000/api/user/login';
-    const res = await axios
-      .post(endpoint, {
+    try {
+      const res = await axios.post(endpoint, {
         email: inputs.email,
         password: inputs.password,
         ...(isSignup && { name: inputs.name })
-      })
-      .catch((err) => console.log(err));
-
-    const data = res.data;
-    console.log(data);
-    return data;
+      });
+      const data = res.data;
+      return data;
+    } catch (error) {
+      if (error.response) {
+        const status = error.response.status;
+        if (status === 401) {
+          setErrorMessage('Incorrect email or password.');
+        } else if (status === 404) {
+          setErrorMessage('User not found.');
+        } else {
+          setErrorMessage('Incorrect email or password');
+        }
+      } else {
+        console.error('Failed to connect to the server.');
+        setErrorMessage('Failed to connect to the server.');
+      }
+      return null;
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Form Data:', inputs);
+    setErrorMessage(''); // Clear any existing error message
     const result = await sendRequest();
-    console.log(result);
     if (result) {
       localStorage.setItem('isLoggedIn', 'true'); // Save login state to localStorage
       localStorage.setItem('userId', result.user._id); // Save userId to localStorage
       dispatch(authActions.login());
+      console.log('Login successful.');
+    } else {
+      console.log('Login failed.');
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 p-3">
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
         <h2 className="text-2xl font-bold mb-6 text-center">
           {isSignup ? 'Sign Up' : 'Login'}
         </h2>
+        {errorMessage && (
+          <div className="text-red-500 text-center mb-4">{errorMessage}</div>
+        )}
         <form onSubmit={handleSubmit} className="space-y-6">
           {isSignup && (
             <div>
@@ -140,6 +161,7 @@ const Auth = () => {
           )}
         </p>
       </div>
+      <BodyImage /> {/* Add the BodyImage component here, outside the form container */}
     </div>
   );
 };

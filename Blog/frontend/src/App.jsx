@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Route, Routes, Navigate } from "react-router-dom";
 import Header from "./components/Header.jsx";
 import Auth from "./components/Auth.jsx";
@@ -6,18 +6,27 @@ import Blogs from "./components/Blogs.jsx";
 import UserBlogs from "./components/UserBlogs.jsx";
 import BlogDetails from "./components/BlogDetails.jsx";
 import AddBlogs from "./components/AddBlogs.jsx";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import Hero from "./components/Hero.jsx";
+import Footer from "./components/Footer.jsx";
+import { authActions } from "./store/index.jsx";
 
 const App = () => {
+  const dispatch = useDispatch();
   const isLoggedIn = useSelector((state) => state.isLoggedIn);
-  console.log(isLoggedIn);
+
+  useEffect(() => {
+    const storedIsLoggedIn = localStorage.getItem("isLoggedIn");
+    if (storedIsLoggedIn === "true") {
+      dispatch(authActions.login());
+    }
+  }, [dispatch]);
 
   return (
     <>
       <header>
         <Header />
-        <Hero/>
+        {!isLoggedIn && <Hero />}
       </header>
       <main>
         <Routes>
@@ -36,12 +45,10 @@ const App = () => {
             </>
           )}
         </Routes>
+        {!isLoggedIn && <Footer />}
       </main>
     </>
   );
 };
 
 export default App;
-
-
-
