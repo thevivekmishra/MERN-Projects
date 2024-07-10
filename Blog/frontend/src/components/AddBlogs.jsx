@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import toast, { Toaster } from 'react-hot-toast';
 
 const AddBlogs = () => {
   const [formData, setFormData] = useState({
@@ -38,18 +39,21 @@ const AddBlogs = () => {
     console.log('Form Data:', formData);
     const data = await sendRequest();
     if (data) {
-      alert('Post added successfully');
+      toast.success('Post added successfully');
       setFormData({
         title: '',
         description: '',
         imageUrl: '',
       });
       navigate('/myBlogs');  // Navigate to /myBlogs after adding the post
+    } else {
+      toast.error('Failed to add post');
     }
   };
 
   return (
     <div className="flex justify-center items-center h-screen bg-gray-100 p-3">
+      <Toaster position="top-right" reverseOrder={false} />
       <form onSubmit={handleSubmit} className="w-full max-w-lg bg-white p-8 rounded-lg shadow-lg">
         <h2 className="text-2xl font-bold mb-6 text-center">Post Your Blog</h2>
         <div className="mb-4">
@@ -111,3 +115,4 @@ const AddBlogs = () => {
 };
 
 export default AddBlogs;
+

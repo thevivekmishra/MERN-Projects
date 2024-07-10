@@ -10,6 +10,7 @@ import { useSelector, useDispatch } from "react-redux";
 import Hero from "./components/Hero.jsx";
 import Footer from "./components/Footer.jsx";
 import { authActions } from "./store/index.jsx";
+import toast, { Toaster } from 'react-hot-toast'
 
 const App = () => {
   const dispatch = useDispatch();
@@ -47,6 +48,7 @@ const App = () => {
         </Routes>
         {!isLoggedIn && <Footer />}
       </main>
+      <Toaster/>
     </>
   );
 };

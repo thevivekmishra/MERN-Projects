@@ -3,10 +3,10 @@ import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { authActions } from '../store/index.jsx';
 import BodyImage from './BodyImage'; // Import the BodyImage component
+import toast, { Toaster } from 'react-hot-toast';
 
 const Auth = () => {
   const dispatch = useDispatch();
-
   const [isSignup, setIsSignup] = useState(false);
   const [inputs, setInputs] = useState({
     email: '',
@@ -61,7 +61,7 @@ const Auth = () => {
       localStorage.setItem('isLoggedIn', 'true'); // Save login state to localStorage
       localStorage.setItem('userId', result.user._id); // Save userId to localStorage
       dispatch(authActions.login());
-      console.log('Login successful.');
+      toast.success('Login successful.');
     } else {
       console.log('Login failed.');
     }
@@ -69,6 +69,7 @@ const Auth = () => {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 p-3">
+      <Toaster position="top-right" reverseOrder={false} />
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
         <h2 className="text-2xl font-bold mb-6 text-center">
           {isSignup ? 'Sign Up' : 'Login'}
@@ -161,7 +162,7 @@ const Auth = () => {
           )}
         </p>
       </div>
-      <BodyImage /> {/* Add the BodyImage component here, outside the form container */}
+      <BodyImage />
     </div>
   );
 };
