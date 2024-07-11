@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import user from "./user.js";
+import User from "./User.js";  // Added .js extension
 
 const Schema = mongoose.Schema;
 

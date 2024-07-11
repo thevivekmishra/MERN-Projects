@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import Blog from './Card.jsx';
+import Blog from './Blog.jsx';
 import Loader from './Loader.jsx';
 import notfound404 from '../assets/notfound.webp';
 
