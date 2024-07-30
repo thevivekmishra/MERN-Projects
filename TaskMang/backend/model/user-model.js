@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import Task from '../model/task-model.js';
 
 const userSchema = new mongoose.Schema({
     name: {

@@ -2,8 +2,8 @@ import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import userRoutes from './routes/user-route.js';
+import taskRoutes from './routes/task-routes.js';
 import cors from 'cors';
-
 
 dotenv.config();
 
@@ -16,6 +16,7 @@ app.use(express.json());
 
 // Routes
 app.use('/api/v1/user', userRoutes);
+app.use('/api/v1/task', taskRoutes);
 
 app.get("/", (req, res) => {
     res.send("HELLO");

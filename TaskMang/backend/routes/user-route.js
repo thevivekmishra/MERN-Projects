@@ -6,7 +6,7 @@ import { getAllUser } from '../controller/getAllUser.js';
 const router = express.Router();
 
 // Define routes
-router.get("/", getAllUser);
+router.get("/getalluser", getAllUser);
 router.post("/signup", signup);
 router.post("/login", login);
 

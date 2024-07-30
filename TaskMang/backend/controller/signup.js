@@ -1,5 +1,6 @@
 import User from "../model/user-model.js";
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 
 export const signup = async (req, res, next) => {
     const { name, email, password } = req.body;
@@ -22,16 +23,26 @@ export const signup = async (req, res, next) => {
             name, 
             email, 
             password: hashedPassword,
-            // Task: [],
         });
 
         // Save the new user to the database
-        await newUser.save();
-        console.log('User saved successfully:', newUser);
-        return res.status(201).json({ user: newUser });
+        const savedUser = await newUser.save();
+        
+        // Generate JWT token
+        const token = jwt.sign({ id: savedUser._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+        console.log('User saved successfully:', savedUser);
+        return res.status(201).json({ 
+            user: { 
+                id: savedUser._id, 
+                name: savedUser.name, 
+                email: savedUser.email 
+            },
+            token 
+        });
     } 
     catch (error) {
-        console.error('Error saving user:', error);
+        console.error('Error during signup process:', error);
         return res.status(500).json({ message: 'Failed to save user' });
     }
 };
