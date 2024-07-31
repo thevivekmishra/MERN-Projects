@@ -10,6 +10,8 @@ import { getCompletedTasks } from '../controller/getCompletedTask.js';
 import { updateCompletedTask } from '../controller/updateCompletedTask.js';
 import { updateIncompleteTask } from '../controller/updateIncompleteTask.js';
 import { updateImportantTask } from '../controller/updateImportantTask.js';
+import { getIncompletedTasks } from '../controller/getIncompletedTask.js';
+
 
 const router = express.Router();
 
@@ -17,12 +19,13 @@ router.post('/createtask', auth, createTask);
 router.get('/getalltask', auth, getAllTasks);
 router.get('/importanttask', auth, getImportantTasks);
 router.get('/completedtask', auth, getCompletedTasks);
+router.get('/incompletedtask', auth, getIncompletedTasks);
 router.get('/gettaskbyuserid/:userId', auth, getTasksByUserId)
-router.patch('/:taskId/completed', auth, updateCompletedTask);
-router.patch('/:taskId/important', auth, updateImportantTask);
-router.patch('/:taskId/incomplete', auth, updateIncompleteTask);
+router.put('/completed/:taskId', auth, updateCompletedTask);
+router.put('/important/:taskId', auth, updateImportantTask);
+router.put('/incomplete/:taskId', auth, updateIncompleteTask);
 router.delete('/deletetask/:taskId', auth, deleteTask);
-router.put('/edittask/:taskId', auth, editTask);
+router.put('/updatetask/:taskId', auth, editTask);
 
 
 export default router;
