@@ -11,7 +11,7 @@ import { updateCompletedTask } from '../controller/updateCompletedTask.js';
 import { updateIncompleteTask } from '../controller/updateIncompleteTask.js';
 import { updateImportantTask } from '../controller/updateImportantTask.js';
 import { getIncompletedTasks } from '../controller/getIncompletedTask.js';
-
+import { getUserById } from '../controller/getUserById.js';
 
 const router = express.Router();
 
@@ -20,7 +20,9 @@ router.get('/getalltask', auth, getAllTasks);
 router.get('/importanttask', auth, getImportantTasks);
 router.get('/completedtask', auth, getCompletedTasks);
 router.get('/incompletedtask', auth, getIncompletedTasks);
-router.get('/gettaskbyuserid/:userId', auth, getTasksByUserId)
+// router.get('/gettaskbyuserid/:userId', auth, getTasksByUserId)
+router.get('/getuserbyid/:id', auth, getUserById);
+router.get('/gettaskbyuserid', auth, getTasksByUserId);
 router.put('/completed/:taskId', auth, updateCompletedTask);
 router.put('/important/:taskId', auth, updateImportantTask);
 router.put('/incomplete/:taskId', auth, updateIncompleteTask);

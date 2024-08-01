@@ -16,7 +16,7 @@ export const getTasksByUserId = async (req, res, next) => {
         const tasks = user.tasks.sort((a, b) => b.createdAt - a.createdAt);
 
         res.status(200).json({
-            message: "Tasks retrieved successfully",
+            message: "User tasks retrieved successfully",
             tasks
         });
     } catch (error) {

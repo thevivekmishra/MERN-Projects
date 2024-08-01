@@ -18,14 +18,13 @@ export const updateCompletedTask = async (req, res, next) => {
             return res.status(403).json({ message: "Unauthorized action" });
         }
 
-        // Update the task's completion status
-        task.complete = true;
+        // Toggle the task's completion status
+        task.complete = !task.complete;
         await task.save();
 
         res.status(200).json({
-            message: "Task updated to completed successfully",
+            message: `Task updated to ${task.complete ? 'completed' : 'incomplete'} successfully`,
             task
-            
         });
     } catch (error) {
         console.error("Failed to update task completion status", error);

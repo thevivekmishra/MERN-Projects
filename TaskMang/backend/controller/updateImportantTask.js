@@ -18,12 +18,12 @@ export const updateImportantTask = async (req, res, next) => {
             return res.status(403).json({ message: "Unauthorized action" });
         }
 
-        // Update the task's importance status
-        task.important = true;
+        // Toggle the task's importance status
+        task.important = !task.important; // This line was added to toggle the importance status
         await task.save();
 
         res.status(200).json({
-            message: "Task updated to important successfully",
+            message: `Task updated to ${task.important ? 'important' : 'not important'} successfully`,
             task
         });
     } catch (error) {

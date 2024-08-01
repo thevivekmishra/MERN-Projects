@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { FaTimes } from 'react-icons/fa';
 
-const InputData = ({ inputDiv, setInputDiv, updatedData, setUpdatedData }) => {
+const InputData = ({ inputDiv, setInputDiv, updatedData, setUpdatedData, onTaskSaved }) => {
     const [data, setData] = useState({ title: "", description: "" });
 
     useEffect(() => {
@@ -39,6 +39,7 @@ const InputData = ({ inputDiv, setInputDiv, updatedData, setUpdatedData }) => {
             setData({ title: "", description: "" });
             setInputDiv("hidden");
             setUpdatedData({ id: "", title: "", description: "" });
+            onTaskSaved(); // Notify AllTasks component to refresh the tasks
         } catch (error) {
             console.error("Failed to save task", error);
         }
@@ -46,8 +47,8 @@ const InputData = ({ inputDiv, setInputDiv, updatedData, setUpdatedData }) => {
 
     return (
         <>
-            <div className={`${inputDiv} fixed top-0 left-0 bg-gradient-to-r from-gray-800 via-gray-700 to-gray-800 h-full w-full opacity-50`} />
-            <div className={`${inputDiv} fixed top-0 left-0 h-full w-full flex justify-center items-center`}>
+            <div className={`${inputDiv} fixed top-0  left-0 bg-gradient-to-r from-gray-800 via-gray-700 to-gray-800 h-full w-full opacity-50`} />
+            <div className={`${inputDiv} fixed top-0 left-0 h-full w-full flex justify-center items-center p-3`}>
                 <div className='relative bg-gray-900 h-auto w-[600px] rounded-lg p-8 shadow-lg text-gray-100'>
                     <button onClick={() => {
                         setInputDiv("hidden");

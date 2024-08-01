@@ -34,6 +34,8 @@ mongoose.connect(process.env.MONGODB_URL, {
     useUnifiedTopology: true,
 }).then(() => {
     console.log('Database connected successfully!!!');
+    // console.log('MongoDB URL:', process.env.MONGODB_URL);
+
 }).catch((error) => {
     console.log('Error connecting to MongoDB:', error.message);
 });

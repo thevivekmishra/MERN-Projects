@@ -73,6 +73,7 @@ const App = () => {
 
   return (
     <div className='bg-gray-900 text-gray-100 h-screen relative'>
+    
       <Routes>
         <Route exact path='/' element={<Home />}>
           <Route index element={<AllTasks />} />

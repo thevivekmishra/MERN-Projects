@@ -1,9 +1,9 @@
 import React from 'react';
 import { FaStar, FaEdit, FaTrash } from 'react-icons/fa';
-import { IoIosAddCircleOutline } from "react-icons/io";
+import { IoIosAddCircleOutline } from 'react-icons/io';
 import axios from 'axios';
 
-const Cards = ({ home, setInputDiv, data, setUpdatedData }) => {
+const Cards = ({ home, setInputDiv, data, setUpdatedData, fetchTasks }) => {
     const headers = {
         id: localStorage.getItem("id"),
         Authorization: `Bearer ${localStorage.getItem("token")}`
@@ -11,28 +11,31 @@ const Cards = ({ home, setInputDiv, data, setUpdatedData }) => {
 
     const handleCompleteTask = async (id) => {
         try {
-            const response = await axios.put(
+            await axios.put(
                 `http://localhost:5000/api/v1/task/completed/${id}`,
                 {},
                 { headers }
             );
-            console.log(response);
+            fetchTasks(); // Fetch tasks after marking as complete
         } catch (error) {
-            console.log("error", error);
+            console.log("Error completing task:", error);
         }
+        window.location.reload();
+        
     };
 
     const handleImportant = async (id) => {
         try {
-            const response = await axios.put(
+            await axios.put(
                 `http://localhost:5000/api/v1/task/important/${id}`,
                 {},
                 { headers }
             );
-            console.log(response);
+            fetchTasks(); // Fetch tasks after marking as important
         } catch (error) {
-            console.log(error);
+            console.log("Error marking task as important:", error);
         }
+        window.location.reload();
     };
 
     const handleUpdate = (id, title, description) => {
@@ -47,28 +50,38 @@ const Cards = ({ home, setInputDiv, data, setUpdatedData }) => {
     const handleDelete = async (id) => {
         try {
             await axios.delete(`http://localhost:5000/api/v1/task/deletetask/${id}`, { headers });
-            // Optionally update the state to remove the deleted task from the UI
-            setData(prevData => prevData.filter(task => task._id !== id));
+            fetchTasks(); // Fetch tasks after deletion
         } catch (error) {
             console.log("Failed to delete task:", error);
         }
+        window.location.reload();
     };
 
+    const formatDate = (dateString) => {
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        return new Date(dateString).toLocaleDateString(undefined, options);
+    };
+
+    // Sort tasks by createdAt in descending order
+    const sortedData = data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
     return (
-        <div className="p-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {data.map((item, index) => (
-                <div key={index} className="bg-gray-800 rounded-lg p-4 flex flex-col">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-16 md:mt-4">
+            {sortedData.map((item, index) => (
+                <div key={index} className="bg-gray-800 rounded-lg p-4 flex flex-col border border-gray-600">
                     <div className="flex-grow">
-                        <h3 className="font-bold text-xl mb-6">{item.title}</h3>
+                        <h3 className="font-bold text-xl">{item.title}</h3>
+                        <p className='text-gray-400 text-sm'>Created at: {formatDate(item.createdAt)}</p>
+
                         <p className='my-4'>{item.description}</p>
                     </div>
-                    <div className="flex items-center justify-between mt-auto">
+                    <div className="md:flex items-center justify-between mt-9">
                         <button
                             onClick={() => handleCompleteTask(item._id)}
-                            className={`text-white px-3 py-[5px] rounded-lg ${item.complete ? 'bg-green-500' : 'bg-orange-500'}`}>
+                            className={`text-white px-3 py-[5px] rounded-lg ${item.complete ? 'bg-green-500' : 'bg-orange-500'} w-full md:w-auto`}>
                             {item.complete ? "Completed" : "Incomplete"}
                         </button>
-                        <div className="flex space-x-5">
+                        <div className="flex space-x-5 md:mt-0 mt-3 justify-around p-2 bg-gray-700 rounded-lg">
                             <button onClick={() => handleImportant(item._id)}>
                                 {item.important === false ? (
                                     <FaStar className="cursor-pointer text-xl" title="Favorite" />
